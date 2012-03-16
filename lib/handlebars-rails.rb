@@ -12,7 +12,7 @@ module Handlebars
     def self.call(template)
       %{
         handlebars = ::Handlebars::TemplateHandler.handlebars
-        handlebars.compile(template.source).call(assigns).force_encoding(Encoding.default_external)
+        handlebars.compile(#{template.source.inspect}).call(assigns).force_encoding(Encoding.default_external)
       }
     end
   end
