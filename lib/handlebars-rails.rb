@@ -6,7 +6,7 @@ module Handlebars
   class TemplateHandler
 
     def self.handlebars
-      Thread.current[:handlebars_context] ||= Handlebars::Context.new
+      @context ||= Handlebars::Context.new
     end
 
     def self.call(template)
