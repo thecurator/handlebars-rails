@@ -19,7 +19,7 @@ describe Handlebars::TemplateHandler do
 
   describe 'an embedded handlebars partial' do
     before do
-      @lookup_context.stub(:find).with("to/hbs", [:one], true) {mock(:source => "{{name}}", :handler => Handlebars::TemplateHandler)}
+      @lookup_context.stub(:find).with("to/hbs", [:one, ''], true) {mock(:source => "{{name}}", :handler => Handlebars::TemplateHandler)}
     end
 
     it 'renders' do
@@ -29,7 +29,7 @@ describe Handlebars::TemplateHandler do
 
   describe 'an embedded erb partial' do
     before do
-      @lookup_context.stub(:find).with("to/erb", [:one], true) {mock(:source => "<%= @name %>", :handler => mock(:ERB))}
+      @lookup_context.stub(:find).with("to/erb", [:one, ''], true) {mock(:source => "<%= @name %>", :handler => mock(:ERB))}
       @view.stub(:render).with(hash_including(:partial => 'to/erb')) {|options| options[:locals][:name]}
     end
     it 'renders' do

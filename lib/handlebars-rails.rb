@@ -33,7 +33,9 @@ module Handlebars
         context.partial_missing do |name|
           name = name.gsub('.', '/')
           lookup_context = data['view'].lookup_context
-          partial = lookup_context.find(name, lookup_context.prefixes, true)
+          prefixes = lookup_context.prefixes.dup
+          prefixes.push ''
+          partial = lookup_context.find(name, prefixes, true)
           if partial.handler == self
             partial.source
           else
