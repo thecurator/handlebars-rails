@@ -19,21 +19,21 @@ describe Handlebars::TemplateHandler do
 
   describe 'an embedded handlebars partial' do
     before do
-      @lookup_context.stub(:find).with("hbs", [:one], true) {mock(:source => "{{name}}", :handler => Handlebars::TemplateHandler)}
+      @lookup_context.stub(:find).with("to/hbs", [:one], true) {mock(:source => "{{name}}", :handler => Handlebars::TemplateHandler)}
     end
 
     it 'renders' do
-      render_template('hbs_partial', '<h1>Hello {{>hbs}}</h1>').should eql '<h1>Hello World</h1>'
+      render_template('hbs_partial', '<h1>Hello {{>to/hbs}}</h1>').should eql '<h1>Hello World</h1>'
     end
   end
 
   describe 'an embedded erb partial' do
     before do
-      @lookup_context.stub(:find).with("erb", [:one], true) {mock(:source => "<%= @name %>", :handler => mock(:ERB))}
-      @view.stub(:render).with(hash_including(:partial => 'erb')) {|options| options[:locals][:name]}
+      @lookup_context.stub(:find).with("to/erb", [:one], true) {mock(:source => "<%= @name %>", :handler => mock(:ERB))}
+      @view.stub(:render).with(hash_including(:partial => 'to/erb')) {|options| options[:locals][:name]}
     end
     it 'renders' do
-      render_template('erb_partial', '<h1>Hello {{>erb}}</h1>').should eql '<h1>Hello World</h1>'
+      render_template('erb_partial', '<h1>Hello {{>to/erb}}</h1>').should eql '<h1>Hello World</h1>'
     end
   end
 

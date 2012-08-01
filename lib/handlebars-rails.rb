@@ -31,12 +31,13 @@ module Handlebars
       Handlebars::Context.new.tap do |context|
         context['rails'] = {}
         context.partial_missing do |name|
+          name = name.gsub('.', '/')
           lookup_context = data['view'].lookup_context
           partial = lookup_context.find(name, lookup_context.prefixes, true)
           if partial.handler == self
             partial.source
           else
-            lambda do |this, context, options|
+            lambda do |this, context|
               data['view'].render :partial => name, :locals => context
             end
           end
