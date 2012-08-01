@@ -36,10 +36,10 @@ module Handlebars
           prefixes = lookup_context.prefixes.dup
           prefixes.push ''
           partial = lookup_context.find(name, prefixes, true)
-          if partial.handler == self
-            partial.source
-          else
-            lambda do |this, context|
+          lambda do |this, context|
+            if partial.handler == self
+              handlebars.compile(partial.source).call(context)
+            else
               data['view'].render :partial => name, :locals => context
             end
           end
