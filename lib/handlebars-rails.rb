@@ -1,58 +1,20 @@
 require 'handlebars-rails/version'
+require 'handlebars-rails/tilt'
+require 'handlebars-rails/template_handler'
 require 'handlebars'
-require 'active_support'
 
 module Handlebars
-  class TemplateHandler
+  class Rails < ::Rails::Railtie
 
-    def self.handlebars
-      @context ||= new_context
-    end
-
-    def self.call(template)
-      %{
-        handler = ::Handlebars::TemplateHandler
-        handlebars = handler.handlebars
-        handler.with_view(self) do
-          handlebars.compile(#{template.source.inspect}).call(assigns).force_encoding(Encoding.default_external).html_safe
-        end
-      }
-    end
-
-    def self.with_view(view)
-      original_view = data['view']
-      data['view'] = view
-      yield
-    ensure
-      data['view'] = original_view
-    end
-
-    def self.new_context
-      Handlebars::Context.new.tap do |context|
-        context['rails'] = {}
-        context.partial_missing do |name|
-          name = name.gsub('.', '/')
-          lookup_context = data['view'].lookup_context
-          prefixes = lookup_context.prefixes.dup
-          prefixes.push ''
-          partial = lookup_context.find(name, prefixes, true)
-          lambda do |this, context|
-            if partial.handler == self
-              handlebars.compile(partial.source).call(context)
-            else
-              data['view'].render :partial => name, :locals => context
-            end
-          end
-        end
+    initializer 'handlebars.initialize' do |app|
+      ActiveSupport.on_load(:action_view) do
+        ActionView::Template.register_template_handler(:hbs, ::Handlebars::TemplateHandler)
+      end
+      ActiveSupport.on_load(:after_initialize) do
+        app.assets.register_engine '.hbs', Handlebars::Tilt
+        app.assets.append_path  ::Rails.root.join('app/views')
+        app.assets.append_path  ::Rails.root.join('app/templates')
       end
     end
-
-    def self.data
-      @context['rails']
-    end
   end
-end
-
-ActiveSupport.on_load(:action_view) do
-  ActionView::Template.register_template_handler(:hbs, ::Handlebars::TemplateHandler)
 end

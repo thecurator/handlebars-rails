@@ -1,5 +1,5 @@
 require 'rspec'
+require 'rails'
 require 'handlebars-rails'
 require 'template'
-require 'rails'
 require 'action_view/buffers'
