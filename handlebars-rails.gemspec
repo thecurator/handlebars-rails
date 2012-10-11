@@ -11,7 +11,7 @@ Gem::Specification.new do |gem|
   gem.description           = "Use Handlebars.js client- and server-side"
   gem.email                 = "james.a.rosen@gmail.com"
   gem.homepage              = "http://github.com/jamesarosen/handlebars-rails"
-  gem.authors               = ["James A. Rosen", "Yehuda Katz"]
+  gem.authors               = ["James A. Rosen", "Yehuda Katz", "Charles Lowell"]
   gem.test_files            = []
   gem.require_paths         = [".", "lib"]
   gem.has_rdoc              = 'false'
