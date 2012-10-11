@@ -1,3 +1,3 @@
 module Handlebars
-  VERSION = "0.2.0beta1"
+  VERSION = "0.2.0beta2"
 end
