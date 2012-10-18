@@ -4,16 +4,25 @@ require 'handlebars-rails/template_handler'
 require 'handlebars'
 
 module Handlebars
-  class Rails < ::Rails::Railtie
+  class Rails < ::Rails::Engine
 
-    initializer 'handlebars.initialize' do |app|
+    unless config.respond_to?(:handlebars)
+      config.handlebars = ActiveSupport::OrderedOptions.new
+    end
+    config.handlebars.override_ember_precompiler = false
+
+    config.paths['app/views'] << 'app/templates'
+
+    initializer 'handlebars.handler.setup' do |app|
       ActiveSupport.on_load(:action_view) do
         ActionView::Template.register_template_handler(:hbs, ::Handlebars::TemplateHandler)
       end
-      ActiveSupport.on_load(:after_initialize) do
+    end
+
+    initializer 'handlebars.precompiler.setup', :group => :all, :after => 'ember_rails.setup' do |app|
+      if !defined?(Ember) || config.handlebars.override_ember_precompiler
+        app.assets.append_path 'app/templates'
         app.assets.register_engine '.hbs', Handlebars::Tilt
-        app.assets.append_path  ::Rails.root.join('app/views')
-        app.assets.append_path  ::Rails.root.join('app/templates')
       end
     end
   end
