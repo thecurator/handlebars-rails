@@ -11,9 +11,8 @@ module Handlebars
     end
     config.handlebars.override_ember_precompiler = false
 
-    config.paths['app/views'] << 'app/templates'
-
-    initializer 'handlebars.handler.setup' do |app|
+    initializer 'handlebars.handler.setup', :before => :add_view_paths do |app|
+      app.paths['app/views'] << 'app/templates'
       ActiveSupport.on_load(:action_view) do
         ActionView::Template.register_template_handler(:hbs, ::Handlebars::TemplateHandler)
       end
