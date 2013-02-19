@@ -3,8 +3,8 @@ require 'handlebars-rails/tilt'
 require 'handlebars-rails/template_handler'
 require 'handlebars'
 
-module Handlebars
-  class Rails < ::Rails::Engine
+module Handlebars::Rails
+  class Engine < ::Rails::Engine
 
     unless config.respond_to?(:handlebars)
       config.handlebars = ActiveSupport::OrderedOptions.new

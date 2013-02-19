@@ -4,7 +4,7 @@ $:.unshift lib unless $:.include?(lib)
 require 'handlebars-rails/version'
 
 Gem::Specification.new do |gem|
-  gem.version               = Handlebars::VERSION
+  gem.version               = Handlebars::Rails::VERSION
   gem.name                  = 'handlebars-rails'
   gem.files                 = `git ls-files`.split("\n")
   gem.summary               = "Rails Template Handler for Handlebars"
