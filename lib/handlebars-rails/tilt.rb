@@ -37,7 +37,7 @@ module Handlebars
       end
 
       def partial_name
-        "#{File.dirname(logical_path).gsub('/','.')}.#{File.basename(logical_path, '.hbs').gsub(/^_/,'')}".gsub(/^\.+/,'')
+        "#{File.dirname(logical_path)}/#{File.basename(logical_path, '.hbs').gsub(/^_/,'')}".gsub(/^\.+/,'')
       end
 
       def template_path

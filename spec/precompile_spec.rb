@@ -23,7 +23,7 @@ describe "sprockets integration" do
   end
   it 'precompiles partials' do
     @context.compile('{{>foobars/partial}}').call(:thing => 'enchilada').should match 'partial enchilada'
-    @context.handlebars.partials['foobars.partial'].call(:thing => 'enchilada').should match 'partial enchilada'
+    @context.handlebars.partials['foobars/partial'].call(:thing => 'enchilada').should match 'partial enchilada'
   end
 end
 

@@ -27,7 +27,6 @@ module Handlebars
     Handlebars::Context.new.tap do |context|
       context['rails'] = {}
       context.partial_missing do |name|
-        name = name.gsub('.', '/')
         lookup_context = data['view'].lookup_context
         prefixes = lookup_context.prefixes.dup
         prefixes.push ''
